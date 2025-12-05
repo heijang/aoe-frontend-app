@@ -34,11 +34,15 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
 
   void _initializeWebVideo() {
     _videoViewId++;
-    _videoViewType = 'video-player-$_videoViewId';
+    // 타임스탬프를 포함하여 완전히 고유한 viewType 생성
+    _videoViewType = 'realtime-video-player-${DateTime.now().millisecondsSinceEpoch}-$_videoViewId';
+    
+    // Flutter 웹 빌드에서는 /assets/ 경로로 시작해야 함
+    final videoPath = '/assets/videos/GettyImages.mp4';
     
     // HTML5 video 요소 생성
     final videoElement = html.VideoElement()
-      ..src = 'assets/images/GettyImages.mp4'
+      ..src = videoPath
       ..autoplay = true
       ..loop = true
       ..muted = true
@@ -78,7 +82,7 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
 
   void _initializeNativeVideo() async {
     try {
-      _videoController = VideoPlayerController.asset('assets/images/GettyImages.mp4');
+      _videoController = VideoPlayerController.asset('assets/videos/GettyImages.mp4');
       await _videoController!.initialize();
       _videoController!.setLooping(true);
       _videoController!.play();

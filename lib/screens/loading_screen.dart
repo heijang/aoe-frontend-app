@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:async';
 import '../widgets/fixed_size_wrapper.dart';
@@ -36,11 +37,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void _initializeWebVideo() {
     _videoViewId++;
-    _videoViewType = 'video-player-$_videoViewId';
+    // 타임스탬프를 포함하여 완전히 고유한 viewType 생성
+    _videoViewType = 'loading-video-player-${DateTime.now().millisecondsSinceEpoch}-$_videoViewId';
+    
+    // Flutter 웹 빌드에서는 /assets/ 경로로 시작해야 함
+    final videoPath = '/assets/videos/0_Minimalism_Color_2160x3840-min.mp4';
     
     // HTML5 video 요소 생성
     final videoElement = html.VideoElement()
-      ..src = 'assets/images/0_Minimalism_Color_2160x3840-min.mp4'
+      ..src = videoPath
       ..autoplay = true
       ..loop = true
       ..muted = true
