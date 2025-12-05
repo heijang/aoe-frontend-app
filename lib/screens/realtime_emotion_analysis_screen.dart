@@ -32,17 +32,19 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
     }
   }
 
-  void _initializeWebVideo() {
+  void _initializeWebVideo() async {
     _videoViewId++;
     // 타임스탬프를 포함하여 완전히 고유한 viewType 생성
     _videoViewType = 'realtime-video-player-${DateTime.now().millisecondsSinceEpoch}-$_videoViewId';
     
-    // Flutter 웹 빌드에서는 /assets/ 경로로 시작해야 함
-    final videoPath = '/assets/videos/GettyImages.mp4';
+    // Flutter의 asset 시스템을 사용하여 올바른 URL 가져오기
+    // pubspec.yaml에 등록된 asset 경로 사용 (assets/videos/...)
+    final assetKey = 'assets/videos/GettyImages.mp4';
+    final videoUrl = await _getAssetUrl(assetKey);
     
     // HTML5 video 요소 생성
     final videoElement = html.VideoElement()
-      ..src = videoPath
+      ..src = videoUrl
       ..autoplay = true
       ..loop = true
       ..muted = true
@@ -91,6 +93,21 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
       }
     } catch (e) {
       print('비디오 초기화 오류: $e');
+    }
+  }
+
+  // Flutter 웹에서 asset URL 가져오기
+  Future<String> _getAssetUrl(String assetKey) async {
+    try {
+      // rootBundle을 통해 asset을 로드하고 Blob URL 생성
+      final assetData = await rootBundle.load(assetKey);
+      final bytes = assetData.buffer.asUint8List();
+      final blob = html.Blob([bytes]);
+      return html.Url.createObjectUrlFromBlob(blob);
+    } catch (e) {
+      // fallback: 직접 경로 사용 (빌드 구조에 따라 다를 수 있음)
+      print('Asset URL 가져오기 실패, fallback 사용: $e');
+      return '/assets/$assetKey';
     }
   }
 
