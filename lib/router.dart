@@ -5,6 +5,7 @@ import 'screens/survey_screen.dart';
 import 'screens/microphone_permission_screen.dart';
 import 'screens/microphone_required_screen.dart';
 import 'screens/realtime_emotion_analysis_screen.dart';
+import 'screens/emotion_recording_screen.dart';
 import 'screens/signup_method_screen.dart';
 
 final GoRouter router = GoRouter(
@@ -33,6 +34,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/emotion-analysis',
       builder: (context, state) => const RealtimeEmotionAnalysisScreen(),
+    ),
+    GoRoute(
+      path: '/emotion-recording',
+      builder: (context, state) => const EmotionRecordingScreen(),
     ),
     GoRoute(
       path: '/signup-method',

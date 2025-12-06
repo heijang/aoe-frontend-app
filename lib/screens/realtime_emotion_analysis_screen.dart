@@ -117,8 +117,9 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
     super.dispose();
   }
 
-  void _startAnalysis(BuildContext context) {
-    // TODO: 감정 분석 시작
+  void _startRecording(BuildContext context) {
+    // 녹음 시작 -> 새로운 화면으로 이동
+    context.go('/emotion-recording');
   }
 
   @override
@@ -294,7 +295,7 @@ class _RealtimeEmotionAnalysisScreenState extends State<RealtimeEmotionAnalysisS
                   
                   // 재생/시작 버튼 (가운데 - 큰 원형 마이크 버튼)
                   GestureDetector(
-                    onTap: () => _startAnalysis(context),
+                    onTap: () => _startRecording(context),
                     child: Container(
                       width: 70,
                       height: 70,
