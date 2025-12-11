@@ -18,7 +18,7 @@ class _EmotionRecordingScreenState extends State<EmotionRecordingScreen> {
   int _elapsedSeconds = 0;
   bool _isPaused = false;
   bool _isRecording = false; // 녹음 시작 여부
-  List<double> _emotionData = []; // 최초에는 빈 배열로 시작
+  final List<double> _emotionData = []; // 최초에는 빈 배열로 시작
   final Random _random = Random(); // 랜덤 생성기
 
   @override
