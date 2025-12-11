@@ -17,8 +17,8 @@ class FixedSizeWrapper extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     
     if (_isTablet(context)) {
-      // 태블릿: 최대 768px, 최소 600px
-      return screenWidth.clamp(600.0, 768.0);
+      // 태블릿: 전체 너비 사용 (iPad Pro 등 대형 태블릿 지원)
+      return screenWidth;
     } else {
       // 모바일: 최대 480px, 최소 320px
       return screenWidth.clamp(320.0, 480.0);
@@ -50,7 +50,7 @@ class FixedSizeWrapper extends StatelessWidget {
                 height: height,
                 constraints: BoxConstraints(
                   minWidth: _isTablet(context) ? 600.0 : 320.0,
-                  maxWidth: _isTablet(context) ? 768.0 : 480.0,
+                  maxWidth: _isTablet(context) ? double.infinity : 480.0, // 태블릿은 전체 너비 허용
                   minHeight: _isTablet(context) ? 800.0 : 600.0,
                   maxHeight: mediaQuery.size.height, // 화면 전체 높이 사용
                 ),
